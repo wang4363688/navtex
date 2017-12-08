@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+# package
+#	Simple navtex create package script
+#
+#	Copyright (c) 2017 Pascal Jean
+################################################################################
+if [ ! -f cmake-build/Makefile ]; then
+  ./build && cd cmake-build && sudo rm -fr install_manifest.txt && make package && mv navtex_*.deb ..
+else
+  cd cmake-build && sudo rm -fr install_manifest.txt && make package && mv navtex_*.deb ..
+fi
+

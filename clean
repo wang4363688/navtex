@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+# clean
+#	Simple navtex clean script
+#
+#	Copyright (c) 2017 Pascal Jean
+################################################################################
+sudo rm -fr cmake-build navtex_*.deb

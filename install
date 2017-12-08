@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+# install
+#	Simple navtex install script
+#
+#	Copyright (c) 2017 Pascal Jean
+################################################################################
+if [ ! -f cmake-build/Makefile ]; then
+  ./build && cd cmake-build && sudo make install
+else
+  cd cmake-build && sudo make install
+fi
+

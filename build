@@ -1,0 +1,25 @@
+#!/bin/sh -e
+
+# build
+#	Simple navtex build script
+#
+#	Copyright (c) 2017 Pascal Jean
+################################################################################
+cmake_check ()
+{
+  echo "Checking for cmake..."
+  if command -v cmake > /dev/null; then
+    echo "Detected cmake..."
+  else
+    echo "Installing cmake for build navtex..."
+    sudo apt-get install -y cmake
+    if [ "$?" -ne "0" ]; then
+      echo "Unable to install cmake! Your base system has a problem; please check your default OS's package repositories because cmake should work."
+      echo "Repository installation aborted."
+      exit 1
+    fi
+  fi
+}
+cmake_check
+mkdir -p cmake-build && cd cmake-build && cmake .. && make
+

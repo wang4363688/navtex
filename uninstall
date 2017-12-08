@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+# uninstall
+#	Simple navtex uninstall script
+#
+#	Copyright (c) 2017 Pascal Jean
+################################################################################
+if [ ! -f cmake-build/Makefile ]; then
+  ./build && cd cmake-build && sudo make uninstall
+else
+  cd cmake-build && sudo make uninstall
+fi
+
