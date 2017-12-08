@@ -11,35 +11,39 @@ numériques option "Électronique et Communication".
 
 Il suffit de relier les signaux broches du GPIO au connecteur B1 de la carte
 émission, le câblage est le suivant:  
-* broche 15 du GPIO broche (BCM_GPIO 22) pour le signal d'horloge **B1a**  
-* broche 11 du GPIO (BCM_GPIO 17) pour le signal de données **B1b**  
+* broche 15 du GPIO (BCM_GPIO 22) pour le signal d'horloge **B1a** (entrée GPIO)  
+* broche 11 du GPIO (BCM_GPIO 17) pour le signal de données **B1b**  (sortie GPIO)  
 * broche 14 du GPIO (GND) pour la masse **B1c**.
 
 Il suffit de taper `navtex-em` sur la ligne de commande:
 
-        navtex-em
-          Tapez un message de 255 caracteres maxi,sans saut de ligne,
-           valider par la touche entree
-           message  :  Test
+        $ navtex-em
 
-           message en code ASCII notation hexadecimale :
-          54 65 73 74 
-           
-           message en code Navtex notation hexadecimale :
-          17 35 69 17 
-           
-           message en mode B collectif(sans entete ni caratères de fin) en notation hexadecimale : 
-          17 1B 35 2D 69 17 17 35 F 69 1B 17 1B F 
-            
-           envoie des signaux de mise en phase pendant quelques secondes :
-          (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  
-           
-           envoyer le reste de la trame : 
-           (63) 1100011  (0) 0000000  (5C) 1011100  (0) 0000000  (63) 1100011  (63) 1100011  (5C) 1011100  (5C) 1011100  (1D) 0011101  (63) 1100011  (72) 1110010  (5C) 1011100  (71) 1110001  (1D) 0011101  (36) 0110110  (72) 1110010  (5A) 1011010  (71) 1110001  (5A) 1011010  (36) 0110110  
-           transmission terminee
-           appuyer sur entrée pour envoyer un autre message, pour quitter CTRL C 
+Le programme est interactif, il suffit de taper le texte à transmettre:
 
-L'appui simultané sur CTRL + C, permet d'arrêter le programme.
+        Tapez un message de 255 caracteres maxi,sans saut de ligne,
+         valider par la touche entree
+         message  :  Test
+
+         message en code ASCII notation hexadecimale :
+        54 65 73 74 
+         
+         message en code Navtex notation hexadecimale :
+        17 35 69 17 
+         
+         message en mode B collectif(sans entete ni caratères de fin) en notation hexadecimale : 
+        17 1B 35 2D 69 17 17 35 F 69 1B 17 1B F 
+          
+         envoie des signaux de mise en phase pendant quelques secondes :
+        (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  (0X33) 0110011  (0X78) 1111000  
+         
+         envoyer le reste de la trame : 
+         (63) 1100011  (0) 0000000  (5C) 1011100  (0) 0000000  (63) 1100011  (63) 1100011  (5C) 1011100  (5C) 1011100  (1D) 0011101  (63) 1100011  (72) 1110010  (5C) 1011100  (71) 1110001  (1D) 0011101  (36) 0110110  (72) 1110010  (5A) 1011010  (71) 1110001  (5A) 1011010  (36) 0110110  
+         transmission terminee
+         appuyer sur entrée pour envoyer un autre message, pour quitter CTRL C 
+
+L'appui simultané sur CTRL + C, permet d'arrêter le programme, 
+Entrée pour émettre un nouveau message.
 
 ### Schéma de la carte d'émission
 
@@ -55,9 +59,12 @@ Sur les versions de Raspbian à partir du 24/09/2015, wiringPi est
 disponible sous forme de paquet debian. Il suffit de télécharger le paquet
 `naxtex` et de l'installer:
 
-      cd
-      wget https://github.com/epsilonrt/navtex/releases/download/v1.0/navtex_1.00_armhf.deb
-      sudo gdebi navtex*.deb
+      $ cd
+      $ wget https://github.com/epsilonrt/navtex/releases/download/v1.0/navtex_1.00_armhf.deb
+      $ sudo gdebi navtex*.deb
+
+Cela doit donner un résultat similaire à ça:
+
         Reading package lists... Done
         Building dependency tree        
         Reading state information... Done
@@ -75,7 +82,7 @@ disponible sous forme de paquet debian. Il suffit de télécharger le paquet
 
 Si gdebi n'est pas installé, il faudra le faire avec :
 
-      sudo apt install gdebi
+      $ sudo apt install gdebi
 
 Pour les versions ultérieures, on remplacera `1.00`, par le numéro de la dernière version.
 
@@ -84,17 +91,17 @@ Pour les versions ultérieures, on remplacera `1.00`, par le numéro de la derni
 Sur les versions plus anciennes de Raspbian, il faut d'abord cloner le dépôt 
 wiringPi, le compiler et l'installer :
 
-        cd
-        git clone git://git.drogon.net/wiringPi
-        cd ~/wiringPi
-        ./build
+        $ cd
+        $ git clone git://git.drogon.net/wiringPi
+        $ cd ~/wiringPi
+        $ ./build
 
 Puis on peut cloner le dépôt navtex, compiler et installer `navtex-em` :
 
-        cd
-        git clone https://github.com/epsilonrt/navtex.git
-        cd ~/navtex
-        ./build
-        ./install
+        $ cd
+        $ git clone https://github.com/epsilonrt/navtex.git
+        $ cd ~/navtex
+        $ ./build
+        $ ./install
 
 
