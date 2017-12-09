@@ -11,8 +11,10 @@ numériques option "Électronique et Communication".
 
 Il suffit de relier les signaux broches du GPIO au connecteur B1 de la carte
 émission, le câblage est le suivant:  
-* broche 15 du GPIO (BCM_GPIO 22) pour le signal d'horloge **B1a** (entrée GPIO)  
-* broche 11 du GPIO (BCM_GPIO 17) pour le signal de données **B1b**  (sortie GPIO)  
+* broche 15 du GPIO (BCM_GPIO 22) pour le signal d'horloge **B1a**. C'est une
+entrée GPIO, comme la carte émetteur génère ce signal en logique 5V, il est 
+nécessaire d'**ajouter un pont diviseur constitué de 2 résistances de 180&Omega; **
+* broche 11 du GPIO (BCM_GPIO 17) pour le signal de données **B1b** (sortie GPIO)  
 * broche 14 du GPIO (GND) pour la masse **B1c**.
 
 Il suffit de taper `navtex-em` sur la ligne de commande:
