@@ -1,5 +1,5 @@
-/*
- *programmpe d'emission de message Navtex, via raspberry
+/*中文翻译版本wh
+ *programmpe d'emission de message Navtex, via raspberry Navtex消息发送程序，通过树莓
  * associé à la carte modulation
  * auteur:joan Erra BTSSN lycée Rouvière
  */
@@ -9,38 +9,38 @@
 
 
 #include <wiringPi.h>
-// DATA Pin - wiringPi pin 0 is BCM_GPIO 17 is pin plug 11
+// DATA Pin - wiringPi pin 0 is BCM_GPIO 17 is pin plug 11 数据引脚- wiringPi引脚0是BCM_GPIO 17是引脚插头11
 #define DATA 0
 
-// horl Pin - wiringPi pin 3 is BCM_GPIO 22 is pin plug 15.
+// horl Pin - wiringPi pin 3 is BCM_GPIO 22 is pin plug 15. horl引脚- wiringPi引脚3是BCM_GPIO 22是引脚插头15。
 #define horl 1
 
 
-/* mot binaire de 7 bits à envoyer et codant un caractère encode navtex*/
+/* mot binaire de 7 bits à envoyer et codant un caractère encode navtex 要发送和编码navtex encode字符的7位二进制字*/
 char caractere_navtex ;
 
-/* tableau contenant les caractères du message en code ASCII*/
+/* tableau contenant les caractères du message en code ASCII 包含ASCII码消息字符的数组*/
 char Tabtouche[256];
 
-/* tableau contenant les caractères de la trame en code ASCII*/
+/* tableau contenant les caractères de la trame en code ASCII ASCII码中包含帧字符的数组*/
 char trame_navtex[300];
 
-/* tableau contenant les caractères du message en code navtex*/
+/* tableau contenant les caractères du message en code navtex 表中包含navtex代码中的消息字符*/
 char codenavtex[300];
 
 
-/* tableau contenant les caractères du message en code navtex en mode B collectif*/
-/* le mode B collectif consiste à envoyer deux fois chaque caractère */
-/*mais de façon entrelaçée tous les cinq caractères*/
+/* tableau contenant les caractères du message en code navtex en mode B collectif 表中包含navtex代码在B组模式下的消息字符*/
+/* le mode B collectif consiste à envoyer deux fois chaque caractère 集体B模式包括每个字符发送两次*/
+/* mais de façon entrelaçée tous les cinq caractères 但每五个字符都交织在一起*/
 
 char trame_modeB[600];
 
-/* tableau de conversion code ASCII des codes 41hex  5ahex et 61hex  7Ahex: lettres en code navtex*/
+/* tableau de conversion code ASCII des codes 41hex  5ahex et 61hex  7Ahex: lettres en code navtex ASCII码代码的转换表41hex5ahex和61hex7Ahex:字母代码navtex*/
 char Tab_lettres[26] = {0x71, 0x27, 0x5c, 0x65, 0x35, 0x6c, 0x56, 0x4b, 0x59, 0x74, 0x3c, 0x53,
                         0x4e, 0x4d, 0x47, 0x5a, 0x3a, 0x55, 0x69, 0x17, 0x39, 0x1e, 0x72, 0x2e, 0x6a, 0x63
                        };
 
-/* tableau de conversion code ASCII des codes 20hex  3Fhex :chiffres et ponctuation en code navtex*/
+/* tableau de conversion code ASCII des codes 20hex  3Fhex :chiffres et ponctuation en code navtex ASCII码代码的转换表20hex3Fhex:在数字和标点navtex代码*/
 char Tab_chiffres[33] = {
   0x1d, 0x65, 0x69, 0x1d, 0x1d, 0x1d,
   0x1d, 0x69, 0x3c, 0x53, 0x1d, 0x63,
@@ -50,7 +50,7 @@ char Tab_chiffres[33] = {
   0x1d, 0x27
 };
 
-/* tableau entete "ZCZC WA 00"en code navtex*/
+/* tableau entete "ZCZC WA 00"en code navtex 输入表“ZCZC WA 00”在navtex代码*/
 char entete[13] = {0x63, 0x5c, 0x63, 0x5c, 0x1d, 0x72, 0x71, 0x36, 0x5a, 0x5a, 0xf, 0x1b, 0x2d};
 
 void acquisition();
@@ -65,29 +65,29 @@ void attendre_front_H();
 
 int main() {
   wiringPiSetup () ;
-  // Set RPI  PIN plug 15 (horl) to be an input
+  // Set RPI  PIN plug 15 (horl) to be an input 将RPI引脚插头15 (horl)设置为输入
   pinMode (horl, INPUT) ;
   //  with a pullup
 
-  // Set the PIN plug 11 (DATA) to be an output
+  // Set the PIN plug 11 (DATA) to be an output 将引脚插头11(数据)设置为输出
   pinMode (DATA, OUTPUT);
   char touche[2];
   do {
     system ("clear");
     // Inittab();
-    //printf("\n retour d'inittab");
-    acquisition();/*aquérir le message de lettres tapé en  clavier*/
+    //printf("\n retour d'inittab 返回d’inittab");
+    acquisition();/*aquérir le message de lettres tapé en  clavier 从键盘上输入的字母中获取信息*/
 
 
-    traduire();// traduire ce message en codes navtex
+    traduire();// traduire ce message en codes navtex 将此消息转换为navtex代码
 
     remplir_trame_navtex();
 
-    convertir_modeB();//convertir en mode B collectif
+    convertir_modeB();//convertir en mode B collectif 转换为集体B模式
 
-    envoyer_trame();// envoyer toute la trame en série , sur le bit D0 du port parallèle
+    envoyer_trame();// envoyer toute la trame en série , sur le bit D0 du port parallèle 将所有帧串联发送到并行端口的D0位
 
-    printf ("\n appuyer sur entrée pour envoyer un autre message, pour quitter CTRL C \n");
+    printf ("\n appuyer sur entrée pour envoyer un autre message, pour quitter CTRL C 按enter发送另一条消息，按CTRL C退出\n");
 
   }
   while (fgets (touche, 2, stdin) != NULL);
@@ -113,7 +113,7 @@ for (a=256;a<600;a++)
 //**********************************************************************/
 void acquisition() {
 
-  printf ("Tapez un message de 255 caracteres maxi,sans saut de ligne,\n valider par la touche entree\n");
+  printf ("Tapez un message de 255 caracteres maxi,sans saut de ligne,\n valider par la touche entree\n"); //输入一条不超过255个字符的消息，不带换行符，按enter键进行验证
   printf (" message  :  ");
   fgets (Tabtouche, 256, stdin);
   return ;
@@ -126,7 +126,7 @@ void traduire() {
   int indice, b, c;
   char lettres_chiffres = 'L';
 
-  printf ("\n message en code ASCII notation hexadecimale :\n");
+  printf ("\n message en code ASCII notation hexadecimale ASCII十六进制表示法的消息 :\n");
   for (b = 0; Tabtouche[b] != 0X0A; b++) {
     printf ("%X ", Tabtouche[b]);
   }
@@ -138,7 +138,7 @@ void traduire() {
     else if (Tabtouche[b] > 0x20 && Tabtouche[b] < 0x40) {
       indice = Tabtouche[b] - 0x20;
       if (lettres_chiffres == 'L') {
-        lettres_chiffres = 'C';
+        lettres_chiffres = 'C'; //字母总数
         codenavtex[c] = 0x36, c++;
       }
       codenavtex[c] = Tab_chiffres[indice];
@@ -159,7 +159,7 @@ void traduire() {
         codenavtex[c] = 0x2d;
         c++;
       }
-      codenavtex[c] = Tab_lettres[indice];
+      codenavtex[c] = Tab_lettres[indice]; //indice标记
     }
     c++;
   }
@@ -181,7 +181,7 @@ void traduire() {
   codenavtex[c + 9] = 0X1B;
   codenavtex[c + 10] = 0X0D;
 
-  printf ("\n \n message en code Navtex notation hexadecimale :\n");
+  printf ("\n \n message en code Navtex notation hexadecimale 消息在Navtex代码十六进制表示法 :\n");
   for (b = 0; codenavtex[b] != 0X0F; b++) {
     printf ("%X ", codenavtex[b]);
   }
@@ -189,8 +189,8 @@ void traduire() {
 
 
 }
-
-void remplir_trame_navtex() {
+//填充navtex帧函数
+void remplir_trame_navtex() { 
   int i, j;
   for (i = 0; i < 13; i++) {
     trame_navtex[i] = entete[i];
@@ -211,7 +211,7 @@ void remplir_trame_navtex() {
 
 
 
-
+//转换模式B函数
 void convertir_modeB() {
   int d = 0;
   int b = 0;
@@ -225,7 +225,7 @@ void convertir_modeB() {
     trame_modeB[d] = trame_navtex[b];
     d = (d + 2);
   }
-  printf ("\n \n message en mode B collectif(sans entete ni caratères de fin) en notation hexadecimale : \n");
+  printf ("\n \n message en mode B collectif(sans entete ni caratères de fin) en notation hexadecimale 十六进制表示法中的集体B模式消息(没有头和结束字符) : \n");
   trame_modeB[d + 1] = 0X0D;
 
   for (b = 26; b <= (d + 2 - 22); b++) {
@@ -239,19 +239,19 @@ void convertir_modeB() {
 
 void envoyer_trame() {
   int c;
-  printf ("\n  \n envoie des signaux de mise en phase pendant quelques secondes :\n");
-  envoyer_mise_en_phase();
+  printf ("\n  \n envoie des signaux de mise en phase pendant quelques secondes 在几秒钟内发送相位信号 :\n");
+  envoyer_mise_en_phase(); //发送相位设置
 
 
-  printf ("\n \n envoyer le reste de la trame : \n ");
+  printf ("\n \n envoyer le reste de la trame 发送剩下的帧: \n ");
 
   for (c = 0; trame_modeB[c] != 0X0F; c++) {
     caractere_navtex = trame_modeB[c];
     printf ("(%X) ", trame_modeB[c]);
-    envoyer7bits();
+    envoyer7bits(); //发送7bit
   }
 
-  printf ("\n transmission terminee");
+  printf ("\n transmission terminee传输完成");
   return;
 
 }
